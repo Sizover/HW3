@@ -2,10 +2,13 @@ package kotest
 
 import BalanceService
 import io.kotest.core.spec.IsolationMode
-import io.kotest.core.spec.style.FeatureSpec
+//import io.kotest.core.spec.style.FeatureSpec
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.datatest.withData
+//import io.kotest.datatest.withData
 import io.kotest.matchers.comparables.shouldBeEqualComparingTo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import kotlin.test.assertEquals
 
 class BSFunTest : FunSpec({
@@ -19,7 +22,7 @@ class BSFunTest : FunSpec({
             balanceService = BalanceService()
         }
         afterTest {
-            println("after test")
+            print("after BSFunTest ")
         }
         test("Add a balance to client") {
             balanceService.addBalance(200)
@@ -28,6 +31,12 @@ class BSFunTest : FunSpec({
         test("Withdraw balance") {
             balanceService.removeBalance(200)
             assertEquals(0, balanceService.getBalance())
+        }
+        test("errorTest") {
+            withContext(Dispatchers.IO) {
+                delay(300L)
+            }
+            throw IllegalStateException("some exception thrown")
         }
     }
 })

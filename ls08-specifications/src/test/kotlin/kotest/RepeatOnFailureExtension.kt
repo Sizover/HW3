@@ -13,6 +13,7 @@ object  RepeatOnFailureExtension: TestCaseExtension {
         var testResult: TestResult
         do {
             testResult = execute(testCase)
+            println("прогон ${localCount.getCount()} теста \"${testCase.name.testName}\" -> $testResult")
             localCount.minusCount()
         } while (testResult.isErrorOrFailure && localCount.getCount() >= 0)
         return testResult
